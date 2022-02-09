@@ -13,6 +13,12 @@
       .todo{
         align-items:center;
       }
+      .timer{
+        background-color: #dc3545;
+        border-radius: 5px;
+        padding: 5px;
+      
+      }
     </style>
   </head>
   <body>
@@ -28,8 +34,8 @@
       <div class="row my-2">
         <div class="col mx-2">
           {% if task.complete == True %}
-          <strike>{{task}}</strike>
-          {% else %}<span>{{task}}</span>
+          <strike>{{task}},{{task.due}}</strike>
+          {% else %}<span>{{task}}</span><span style="float: right;" class="timer"><span>{{task.due|timeuntil}}</span></span>
           {% endif %}
           </div>
         <div class="col ">
