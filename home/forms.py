@@ -33,4 +33,7 @@ class UpdateForm(forms.ModelForm):
     class Meta:
         model=task
         fields=['title','due','complete']
-
+class UserForm(forms.ModelForm):
+    class Meta:
+        model=Profile
+        exclude=['user']

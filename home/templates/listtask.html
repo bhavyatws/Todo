@@ -17,12 +17,70 @@
         background-color: #dc3545;
         border-radius: 5px;
         padding: 10px;
-      
       }
+          .img-thumbnail{
+              width:20%;
+              height:15%;
+          }
+      
+      
+    
     </style>
   </head>
   <body>
     <h4 class="todo">Todo Task</h4>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Todo Task</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <a href="{% url 'account' %} " class="btn btn-secondary text-center">Profile Update</a>
+            <button type="button" class="btn btn-primary position-relative mx-2">
+              <h5>Hello,{{profile.user}}</h5>
+             
+            </button>
+          </ul>
+          
+          {% if messages %}
+                        
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>
+                
+              {% for message in messages %}
+                  <p><h6>{{message}}</h6></p>
+                  {% endfor %}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+          
+          <form class="d-flex" method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            {% comment %} <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> {% endcomment %}
+            <button class="btn btn-outline-success" type="submit" name="">Logout</button>
+          </form>
+        </div>
+      </div>
+    </nav>
     <div class="mt-4 mx-2">
       <form method="POST" action="\">
           {% csrf_token %}
@@ -44,6 +102,16 @@
         </div>
       </div>
       {% endfor %}
+  </div>
+  <h4 class="text-center mt-2">Profile Details</h4>
+  <div class="list-group text-center container-fluid">
+    <a href="#" class="list-group-item list-group-item-action"><img class="img-thumbnail text-center" src="{{profile.profile_pic.url}}"></a>
+  
+    <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{profile.name}}</a>
+    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">{{profile.phone}}</a>
+    <a href="#" class="list-group-item list-group-item-action list-group-item-success">{{profile.date_created}}</a>
+
+   
   </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
