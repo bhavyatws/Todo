@@ -59,6 +59,7 @@
               <h5>Hello,{{profile.user}}</h5>
              
             </button>
+            {% comment %} <a href="{% url 'lock' %}">lock</a> {% endcomment %}
           </ul>
           
           {% if messages %}
@@ -88,20 +89,25 @@
         <input type="submit" class="btn btn-success" name="save">
        
       </form>
-      {% for task in listtask %}
-      <div class="row my-2">
-        <div class="col mx-2">
-          {% if task.complete == True %}
-          <strike>{{task}},{{task.due}}</strike>
-          {% else %}<span>{{task}}</span><span style="float: right;" class="timer mt-2"><span>{{task.due|timeuntil}}</span></span>
-          {% endif %}
-          </div>
-        <div class="col ">
-          <a class="btn btn-warning  my-2 " href="{% url 'update' task.id %}">Update</a>
-          <a class="btn btn-danger  my-2 mx-2" href="{% url 'delete_task' task.id %}">Delete</a>
-        </div>
-      </div>
-      {% endfor %}
+     {% if listtask|length == 0 %}
+     <div class="alert alert-info">
+    <p class="display-4">No Task</p>
+     {% else %}
+     {% for task in listtask %}
+     <div class="row my-2">
+       <div class="col mx-2">
+         {% if task.complete == True %}
+         <strike>{{task}},{{task.due}}</strike>
+         {% else %}<span>{{task}}</span><span style="float: right;" class="timer mt-2"><span>{{task.due|timeuntil}}</span></span>
+         {% endif %}
+         </div>
+       <div class="col ">
+         <a class="btn btn-warning  my-2 " href="{% url 'update' task.id %}">Update</a>
+         <a class="btn btn-danger  my-2 mx-2" href="{% url 'delete_task' task.id %}">Delete</a>
+       </div>
+     </div>
+     {% endfor %}
+     {% endif %}
   </div>
   <h4 class="text-center mt-2">Profile Details</h4>
   <div class="list-group text-center container-fluid">

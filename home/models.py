@@ -11,8 +11,8 @@ class Profile(models.Model):
     date_created=models.DateField(auto_now_add=True,null=True)
     def __str__(self):
         return self.name
-class task(models.Model):
-    # user=models.OneToOneField(Profile,null=True,on_delete=models.CASCADE)
+class task(models.Model):  
+    owner=models.ForeignKey(User,null=True,on_delete=models.CASCADE)
     title=models.CharField(max_length=200)
     complete=models.BooleanField(default=False)
     created_date=models.DateTimeField(auto_now_add=True)

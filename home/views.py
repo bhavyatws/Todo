@@ -11,21 +11,31 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='/login')
 def listTask(request):
     # queryset=task.objects.order_by('complete','due')
-    queryset=task.objects.order_by('-id')
+    queryset=task.objects.filter(owner=request.user)
+    print(queryset.count())
     # print(queryset)
+    owner=request.user
+    print(owner)
     form=TaskForm()
+    owner=request.user
     if request.method == 'POST':
         form=TaskForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)#it does not save to db                                                             
+            obj.owner = owner
+            obj.save()
+
         return redirect('/')
     profile= Profile.objects.get(user=request.user)
     context={'form':form,'listtask':queryset,'profile':profile}
     return render(request,'listtask.html',context)
+@login_required(login_url='/login')
 def updateTask(request,pk):
     print(pk)
     queryset=task.objects.get(id=pk)
@@ -39,6 +49,7 @@ def updateTask(request,pk):
             return redirect('/')
     context={'form':form,'listtask':queryset}
     return render(request,'update_task.html',context)
+@login_required(login_url='/login')
 def deleteTask(request,pk):
     queryset=task.objects.get(id=pk).delete()
     # if request.method == "POST":
@@ -95,7 +106,7 @@ def sign_up(request):
             return redirect('register')
        
 
-        user=User.objects.user = User.objects.create_user(username=username, password=password1,email=email)
+        user=User.objects.create_user(username=username, password=password1,email=email)
         user.save()
         messages.success(request,'Account Created for ' + ' ' + username.title())
         return redirect('/')
@@ -103,6 +114,7 @@ def sign_up(request):
     
         
     return render(request,'authentication/sign_up.html')
+@login_required(login_url='/login')
 def account(request):
     user= Profile.objects.get(user=request.user)
     form=UserForm(instance=user)
@@ -121,5 +133,20 @@ def account(request):
     
     context={'form':form,'user':user}
     return render(request,'authentication/profile.html',context)
+
+# def unlock(request):
+#     m = User.objects.get(username=request.POST['username'])
+#     print(m)
+#     if m.check_password(request.POST['password']):
+#         request.session['member_id'] = m.id
+#         return redirect('/')
+#     else:
+#         return HttpResponse("Your username and password didn't match.")
+# def lock(request):
+#     try:
+#         del request.session['member_id']
+#     except KeyError:
+#         pass
+#     return HttpResponse("You're logged out.")
 
 
