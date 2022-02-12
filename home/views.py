@@ -18,10 +18,7 @@ from django.contrib.auth.decorators import login_required
 def listTask(request):
     # queryset=task.objects.order_by('complete','due')
     queryset=task.objects.filter(owner=request.user)
-    print(queryset.count())
-    # print(queryset)
-    owner=request.user
-    print(owner)
+
     form=TaskForm()
     owner=request.user
     if request.method == 'POST':
@@ -37,26 +34,32 @@ def listTask(request):
     return render(request,'listtask.html',context)
 @login_required(login_url='/login')
 def updateTask(request,pk):
-    print(pk)
-    queryset=task.objects.get(id=pk)
-    print(queryset)
-    form=UpdateForm(instance=queryset)
+    queryset=task.objects.filter(id=pk)
+    if queryset.exists():
+        queryset=task.objects.get(id=pk)
+        form=UpdateForm(instance=queryset)
     # print(form)
-    if request.method=='POST':
-        form=UpdateForm(request.POST,instance=queryset)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    context={'form':form,'listtask':queryset}
-    return render(request,'update_task.html',context)
+        if request.method=='POST':
+            form=UpdateForm(request.POST,instance=queryset)
+            if form.is_valid():
+                form.save()
+                return redirect('/')
+        context={'form':form,'listtask':queryset}
+        return render(request,'update_task.html',context)
+    else:
+        return redirect('/')
+   
 @login_required(login_url='/login')
 def deleteTask(request,pk):
-    queryset=task.objects.get(id=pk).delete()
-    # if request.method == "POST":
-    #     queryset.delete()
-    return redirect('/')
-    # context={'delete_task':queryset}
-    # return render(request,'delete_task.html',context)
+    queryset=task.objects.filter(id=pk)
+    if queryset.exists():
+        queryset=task.objects.get(id=pk)
+        queryset.delete()
+        return redirect('/')
+    else:
+        return redirect('/')
+    
+
 def sign_in(request):
     if request.method=="POST":
         username=request.POST.get('username')
@@ -96,8 +99,7 @@ def sign_up(request):
        
         try:
             if validate_email(email):
-                
-                return redirect('register')
+                pass
         except ValidationError as e:
             messages.success(request,'Please enter correct email')
             return redirect('register')
