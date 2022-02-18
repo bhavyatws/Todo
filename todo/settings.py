@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
-DATABASES = {'default': dj_database_url.config(default='postgres://qbjnbfbxtzgkjf:68aea39088bef7693d995aef2f3c7b2822953702688dee19ddfa6b29d0374780@ec2-54-224-64-114.compute-1.amazonaws.com:5432/d7es6vkl7v7qeo')}
+DATABASES = {'default': dj_database_url.config(default=config['DATABASE_URL'])}
 print(DATABASES)
 db_from_env=dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)

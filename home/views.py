@@ -1,4 +1,4 @@
-from email import message
+
 import http
 import imp
 import re
