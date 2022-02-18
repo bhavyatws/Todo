@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
-DATABASES = {'default': dj_database_url.config(default=config['DATABASE_URL'])}
+DATABASES = {'default': dj_database_url.config(default=config['HEROKU_POSTGRESQL_PINK_URL'])}
 print(DATABASES)
 db_from_env=dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
