@@ -34,4 +34,4 @@ class UpdateForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model=Profile
-        exclude=['owner']
+        exclude=['user']
