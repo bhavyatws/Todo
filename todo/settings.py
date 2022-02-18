@@ -17,6 +17,7 @@ import dj_database_url
 import os
 from dotenv import dotenv_values
 config=dotenv_values('.env')
+print(config)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -104,8 +105,8 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
-DATABASES = {'default': dj_database_url.config(default=config['HEROKU_POSTGRESQL_PINK_URL'])}
-print(DATABASES)
+DATABASES = {'default': dj_database_url.config(default=config['DATABASE_URL'])}
+
 db_from_env=dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 
