@@ -52,7 +52,7 @@
           
           {% if messages %}
                         
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
               <strong>
                 
               {% for message in messages %}
@@ -91,7 +91,7 @@
          </div>
        <div class="col ">
          <a class="btn btn-warning  my-2 " href="{% url 'update' task.id %}">Update</a>
-         <a class="btn btn-danger  my-2 mx-2" href="{% url 'delete_task' task.id %}">Delete</a>
+         <a class="btn btn-danger  my-2 mx-2" href="{% url 'confirm_delete' task.id %}">Delete</a>
        </div>
      </div>
      {% endfor %}
@@ -101,7 +101,7 @@
   <div class="list-group text-center container-fluid">
     <a href="#" class="list-group-item list-group-item-action"><img class="img-thumbnail text-center" src="{{profile.profile_pic.url}}"></a>
   
-    <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{profile.name}}</a>
+    <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{request.user}}</a>
     <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">{{profile.phone}}</a>
     <a href="#" class="list-group-item list-group-item-action list-group-item-success">{{profile.date_created}}</a>
 

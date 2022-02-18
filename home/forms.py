@@ -28,6 +28,7 @@ class TaskForm(forms.ModelForm):
         fields=['title','due']
 class UpdateForm(forms.ModelForm):
     title=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Task Title..'}),label=False)
+    due = forms.DateTimeField(widget=DateInput)
     class Meta:
         model=task
         fields=['title','due','complete']

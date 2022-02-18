@@ -53,9 +53,15 @@ def updateTask(request,pk):
 def deleteTask(request,pk):
     queryset=task.objects.filter(id=pk)
     if queryset.exists():
-        queryset=task.objects.get(id=pk)
-        queryset.delete()
-        return redirect('/')
+        if request.method == "POST":
+            queryset=task.objects.get(id=pk)
+            queryset.delete()
+            return redirect('/')
+            
+        else:
+            context={'pk':pk} 
+            return render(request,'delete_task.html',context)
+        
     else:
         return redirect('/')
     
@@ -110,17 +116,10 @@ def sign_up(request):
 
         user=User.objects.create_user(username=username, password=password1,email=email)
         user.save()
-        profile_obj=Profile(user=user)
-        profile_obj.save()
+        # profile_obj=Profile(user=user)
+        # profile_obj.save()
         messages.success(request,'Account Created for ' + ' ' + username.title())
-        user=authenticate(username=username,password=password1)
-        if user is not None:
-            login(request,user)
-            messages.success(request,'Successfully Account Created!!')
-            return redirect('/')
-        else:
-            messages.error(request,'Account not created!!')
-            return redirect('/register')
+        return redirect('/login')
         
     
     

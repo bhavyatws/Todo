@@ -6,12 +6,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Profile(models.Model):
     user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
-    name=models.CharField(max_length=100,null=True)
-    phone=models.CharField(max_length=100,null=True)
+    phone=models.CharField(max_length=100,default='1234567890')
     profile_pic=models.ImageField(default="userprofile.png",upload_to='upload/',null=True)
     date_created=models.DateField(auto_now_add=True,null=True)
     def __str__(self):
-        return self.name
+        return str(self.user)
 class task(models.Model):  
     owner=models.ForeignKey(User,null=True,on_delete=models.CASCADE)
     title=models.CharField(max_length=200)
